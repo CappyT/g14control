@@ -7,6 +7,7 @@ import time
 import os
 import psutil
 from multiprocessing import Process
+import resources
 
 
 def parse_boolean(parse_string):  # Small utility to convert windows HEX format to a boolean.
@@ -35,9 +36,9 @@ def get_windows_theme():
 
 def create_icon():
     if get_windows_theme() == 0:  # We will create the icon based on current windows theme
-        return Image.open('res\icon_light.png')
+        return Image.open(os.path.join(config['temp_dir'], 'icon_light.png'))
     else:
-        return Image.open('res\icon_dark.png')
+        return Image.open(os.path.join(config['temp_dir'], 'icon_dark.png'))
 
 
 def power_check():
@@ -175,6 +176,7 @@ if __name__ == "__main__":
     ac = None  # Defining a variable for ac power
     power_process = Process(target=power_check)  # A process in the background will check for AC
     power_process.start()  # Let's start the process
+    resources.extract(config['temp_dir'])
     icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
     icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
     icon_app.icon = create_icon()  # This will set the icon itself (the graphical icon)
