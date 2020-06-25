@@ -29,6 +29,8 @@ You are very free to contribute with your code. I kinda suck at coding so any he
 - Parallel notification spawning (right now when notification is displayed the whole app locks until the notification disappears)
 - Different options for AC/DC modes
 - Windows power plan switching (is it needed?)
+- Logging
+- Better binary storage
 - Better UI (?)
 - Better code comments
 - Better ~~engrish~~ english (sorry, is just not my native language)
