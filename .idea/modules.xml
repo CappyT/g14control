@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/G14Control.iml" filepath="$PROJECT_DIR$/.idea/G14Control.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/g14control.iml" filepath="$PROJECT_DIR$/.idea/g14control.iml" />
     </modules>
   </component>
 </project>
