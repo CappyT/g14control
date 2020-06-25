@@ -3,6 +3,7 @@ import base64
 import hashlib
 
 
+# Binaries will be stored here in the script as base64 strings. Anything better will be appreciated
 DATA = {
     "atrofac-cli.exe": {
         "sha1": "8ac8e8e2b9900d60bf5d39e5dbe4220f01b4e0f6",
@@ -22,25 +23,25 @@ DATA = {
 }
 
 
-def extract(tempdir):
-    if not path.exists(tempdir):
+def extract(tempdir):  # Small function to extract files
+    if not path.exists(tempdir):  # Verifu the directory exists.
         try:
-            mkdir(tempdir)
+            mkdir(tempdir)  # Well, it doesn't, so let's create it
         except Exception:
-            pass
-    if not path.isdir(tempdir):
+            pass  # if we are here, something really bad happened...
+    if not path.isdir(tempdir):  # The directory is a file?
         try:
-            remove(tempdir)
-            mkdir(tempdir)
+            remove(tempdir)  # Remove the "file"
+            mkdir(tempdir)  # Spawn a new directory
         except Exception:
-            pass
-    for file in DATA:
-        file_path = path.join(tempdir, file)
-        if path.exists(file_path):
-            if not file_hash(file_path, DATA[file]['sha1']):
+            pass  # if we are here, something really bad happened...
+    for file in DATA:  # Cycle through files
+        file_path = path.join(tempdir, file)  # Join filenames with destination path
+        if path.exists(file_path):  # Verify if file exists
+            if not file_hash(file_path, DATA[file]['sha1']):  # Calculate the hashes for the files, so we're sure are updated
                 try:
                     with open(file_path, 'wb') as resource:
-                        resource.write(base64.b64decode(DATA[file]['data']))
+                        resource.write(base64.b64decode(DATA[file]['data']))  # Save the decoded strings as files
                 except Exception as e:
                     print(str(e))
             else:
@@ -48,20 +49,20 @@ def extract(tempdir):
         else:
             try:
                 with open(file_path, 'wb') as resource:
-                    resource.write(base64.b64decode(DATA[file]['data']))
+                    resource.write(base64.b64decode(DATA[file]['data']))  # Save the decoded strings as files
             except Exception as e:
                 print(str(e))
 
 
-def file_hash(file, sha1_hash):
-    block_size = 65536
-    hasher = hashlib.sha1()
-    with open(file, 'rb') as hash_file:
-        buf = hash_file.read(block_size)
+def file_hash(file, sha1_hash):  # Small utility to check for SHA1
+    block_size = 65536  # Set block size
+    hasher = hashlib.sha1()  # Spawn a new hash object
+    with open(file, 'rb') as hash_file:  # Open file
+        buf = hash_file.read(block_size)  # Read it
         while len(buf) > 0:
             hasher.update(buf)
             buf = hash_file.read(block_size)
-    if str(hasher.hexdigest()) == sha1_hash:
-        return True
+    if str(hasher.hexdigest()) == sha1_hash:  # Make sure the file has the correct hash
+        return True  # Return True if the hash matches
     else:
-        return False
+        return False  # Return False if the hash differs
