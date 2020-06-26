@@ -6,7 +6,6 @@ import ctypes
 import time
 import os
 import psutil
-from multiprocessing import Process
 import resources
 from threading import Thread
 
@@ -51,7 +50,6 @@ def power_check():
 
 def notify(message):
     Thread(target=do_notify, args=(message,), daemon=True).start()
-    #Process(target=(lambda: do_notify(message, icon_app))).start()
 
 
 def do_notify(message):
@@ -143,7 +141,6 @@ def apply_plan(plan):
 
 
 def quit_app():
-    power_process.terminate()  # This will terminate the process without waiting to finish
     icon_app.stop()  # This will destroy the the tray icon gracefully.
 
 
@@ -177,8 +174,7 @@ if __name__ == "__main__":
     #     exit(0)
     config = load_config()  # Make the config available to the whole script
     ac = None  # Defining a variable for ac power
-    power_process = Process(target=power_check)  # A process in the background will check for AC
-    power_process.start()  # Let's start the process
+    Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
     resources.extract(config['temp_dir'])
     icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
     icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
