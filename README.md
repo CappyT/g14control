@@ -24,7 +24,7 @@ You are very free to contribute with your code. I kinda suck at coding so any he
 ### TODO:
 - Automatic config generation
 - ~~Dynamic Menu generation based on configured profiles~~ Implemented
-- atrofac commands integration
+- ~~atrofac commands integration~~ Implemented
 - ryzenadj command integration
 - ~~Parallel notification spawning (right now when notification is displayed the whole app locks until the notification disappears)~~ Kinda buggy, but better.
 - Different options for AC/DC modes

@@ -60,9 +60,9 @@ def do_notify(message):
 
 
 def get_current():
-    global ac
+    global ac, current_plan
     notify(
-        "Current config: DEFAULT\n" +
+        "Current config: " + current_plan + "\n" +
         "Boost active: " + str(get_boost()) + "\n" +
         "AC: " + str(ac) + "\n" +
         "dGPU: " + str(get_dgpu()) + "\n"
@@ -135,9 +135,30 @@ def set_dgpu(state):
         notify("dGPU DISABLED")  # Inform the user
 
 
+def set_atrofac(asus_plan, cpu_curve=None, gpu_curve=None):
+    atrofac = str(os.path.join(config['temp_dir'] + "atrofac-cli.exe"))
+    if cpu_curve is not None and gpu_curve is not None:
+        os.popen(
+            atrofac + " fan --cpu " + cpu_curve + " --gpu " + gpu_curve + " --plan " + asus_plan
+        )
+    elif cpu_curve is not None and gpu_curve is None:
+        os.popen(
+            atrofac + " fan --cpu " + cpu_curve + " --plan " + asus_plan
+        )
+    elif cpu_curve is None and gpu_curve is not None:
+        os.popen(
+            atrofac + " fan --gpu " + gpu_curve + " --plan " + asus_plan
+        )
+    else:
+        os.popen(
+            atrofac + " plan " + asus_plan
+        )
+
+
 def apply_plan(plan):
-    print(plan)
-    notify("Hello world")
+    global current_plan
+    current_plan = plan['name']
+    set_atrofac(plan['plan'], plan['cpu_curve'], plan['gpu_curve'])
 
 
 def quit_app():
@@ -172,6 +193,7 @@ def load_config():  # Small function to load the config and return it after pars
 if __name__ == "__main__":
     # if not is_admin():
     #     exit(0)
+    current_plan = "DEFAULT"
     config = load_config()  # Make the config available to the whole script
     ac = None  # Defining a variable for ac power
     Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
