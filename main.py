@@ -8,6 +8,7 @@ import os
 import psutil
 from multiprocessing import Process
 import resources
+from threading import Thread
 
 
 def parse_boolean(parse_string):  # Small utility to convert windows HEX format to a boolean.
@@ -49,10 +50,12 @@ def power_check():
 
 
 def notify(message):
-    try:
-        icon_app.remove_notification()  # Let's make sure everything is removed prior to spawn new notifications
-    except Exception as e:
-        print(str(e))
+    Thread(target=do_notify, args=(message,), daemon=True).start()
+    #Process(target=(lambda: do_notify(message, icon_app))).start()
+
+
+def do_notify(message):
+    global icon_app
     icon_app.notify(message)  # Display the provided argument as message
     time.sleep(config['notification_time'])  # The message is displayed for the configured time. This is blocking.
     icon_app.remove_notification()  # Then, we will remove the notification
