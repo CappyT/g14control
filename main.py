@@ -83,8 +83,7 @@ def get_boost():
     return ac_boost
 
 
-def set_boost():
-    state = not get_boost()  # Inverting the boolean of the state, so we can set the opposite
+def set_boost(state):
     current_pwr = os.popen("powercfg /GETACTIVESCHEME")  # Just to be safe, let's get the current power scheme
     pwr_guid = current_pwr.readlines()[0].rsplit(": ")[1].rsplit(" (")[0].lstrip("\n")  # Parse the GUID
     if state is True:  # Activate boost
@@ -116,16 +115,16 @@ def get_dgpu():
     return dgpu_ac
 
 
-def set_dgpu():
-    state = not get_boost()  # Inverting the boolean of the state, so we can set the opposite
+def set_dgpu(state):
+    print(state)
     current_pwr = os.popen("powercfg /GETACTIVESCHEME")  # Just to be safe, let's get the current power scheme
     pwr_guid = current_pwr.readlines()[0].rsplit(": ")[1].rsplit(" (")[0].lstrip("\n")  # Parse the GUID
     if state is True:  # Activate dGPU
         os.popen(
-            "powercfg /setacvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 3"
+            "powercfg /setacvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 2"
         )
         os.popen(
-            "powercfg /setdcvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 3"
+            "powercfg /setdcvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 2"
         )
         notify("dGPU ENABLED")  # Inform the user
     elif state is False:  # Deactivate dGPU
@@ -152,12 +151,12 @@ def create_menu():  # This will create the menu in the tray app
     menu = pystray.Menu(
         pystray.MenuItem("Current Config", get_current, default=True),  # The default setting will make the action run on left click
         pystray.MenuItem("CPU Boost", pystray.Menu(  # The "Boost" submenu
-            pystray.MenuItem("Boost ON", set_boost),
-            pystray.MenuItem("Boost OFF", set_boost),
+            pystray.MenuItem("Boost ON", lambda: set_boost(True)),
+            pystray.MenuItem("Boost OFF", lambda: set_boost(False)),
         )),
         pystray.MenuItem("dGPU", pystray.Menu(
-            pystray.MenuItem("dGPU ON", set_dgpu),
-            pystray.MenuItem("dGPU OFF", set_dgpu),
+            pystray.MenuItem("dGPU ON", lambda: set_dgpu(True)),
+            pystray.MenuItem("dGPU OFF", lambda: set_dgpu(False)),
         )),
         pystray.Menu.SEPARATOR,
         # I have no idea of what I am doing, fo real, man.
