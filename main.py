@@ -135,8 +135,8 @@ def set_dgpu():
         notify("dGPU DISABLED")  # Inform the user
 
 
-def click():
-    print("Hello world")
+def apply_plan(plan):
+    print(plan)
     notify("Hello world")
 
 
@@ -157,7 +157,8 @@ def create_menu():  # This will create the menu in the tray app
             pystray.MenuItem("dGPU OFF", set_dgpu),
         )),
         pystray.Menu.SEPARATOR,
-        pystray.MenuItem("Test", click),
+        # I have no idea of what I am doing, fo real, man.
+        *list(map((lambda plan: pystray.MenuItem(plan['name'], (lambda: apply_plan(plan)))), config['plans'])),  # Blame @dedo1911 for this. You can find him on github.
         pystray.Menu.SEPARATOR,
         pystray.MenuItem("Quit", quit_app)  # This to close the app, we will need it.
     )
