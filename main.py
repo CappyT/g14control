@@ -5,6 +5,7 @@ from winreg import *
 import ctypes
 import time
 import os
+import sys
 import psutil
 import resources
 from threading import Thread
@@ -204,8 +205,8 @@ def load_config():  # Small function to load the config and return it after pars
 
 
 if __name__ == "__main__":
-    # if not is_admin():
-    #     exit(0)
+    if not is_admin():
+        sys.exit(0)
     current_plan = "DEFAULT"
     config = load_config()  # Make the config available to the whole script
     ac = None  # Defining a variable for ac power
