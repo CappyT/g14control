@@ -15,7 +15,9 @@ Not yet fully. See TODO for information about that.
 While is possibile to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
 
 ### Downloads:
-Check the release tab!
+~~Check the release tab!~~
+
+At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
 
 ### How to build:
 Make sure python 3 and pip are installed. Then (as admin, in the source folder) run:
@@ -24,6 +26,11 @@ Make sure python 3 and pip are installed. Then (as admin, in the source folder) 
 
 `pip install pyinstaller`
 
+you can then run the script with: `python main.pyw`
+
+##### NOTE: At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
+
+Or build an exe with:
 `pyinstaller -F --icon=res/icon.ico --noconsole --uac-admin --hidden-import pystray._win32 main.py`
 
 

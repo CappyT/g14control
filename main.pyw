@@ -115,7 +115,6 @@ def get_dgpu():
 
 
 def set_dgpu(state):
-    print(state)
     current_pwr = os.popen("powercfg /GETACTIVESCHEME")  # Just to be safe, let's get the current power scheme
     pwr_guid = current_pwr.readlines()[0].rsplit(": ")[1].rsplit(" (")[0].lstrip("\n")  # Parse the GUID
     if state is True:  # Activate dGPU
@@ -173,6 +172,7 @@ def apply_plan(plan):
     set_boost(plan['boost'])
     set_dgpu(plan['dgpu_enabled'])
     set_ryzenadj(plan['cpu_tdp'])
+    notify("Applied plan " + plan['name'])
 
 
 def quit_app():
