@@ -155,10 +155,23 @@ def set_atrofac(asus_plan, cpu_curve=None, gpu_curve=None):
         )
 
 
+def set_ryzenadj(tdp):
+    ryzenadj = str(os.path.join(config['temp_dir'] + "ryzenadj.exe"))
+    if tdp is None:
+        pass
+    else:
+        os.popen(
+            ryzenadj + " -a " + tdp + " -b " + tdp
+        )
+
+
 def apply_plan(plan):
     global current_plan
     current_plan = plan['name']
     set_atrofac(plan['plan'], plan['cpu_curve'], plan['gpu_curve'])
+    set_boost(plan['boost'])
+    set_dgpu(plan['dgpu_enabled'])
+    set_ryzenadj(plan['cpu_tdp'])
 
 
 def quit_app():
