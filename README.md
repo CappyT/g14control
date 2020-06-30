@@ -14,9 +14,18 @@ Not yet fully. See TODO for information about that.
 #### What about Linux?
 While is possibile to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
 
-
 ### Downloads:
-Well, none for now. Be patient!
+Check the release tab!
+
+### How to build:
+Make sure python 3 and pip are installed. Then (as admin, in the source folder) run:
+
+`pip install -r requirements.txt`
+
+`pip install pyinstaller`
+
+`pyinstaller -F --icon=res/icon.ico --noconsole --uac-admin --hidden-import pystray._win32 main.py`
+
 
 ### Contribute:
 You are very free to contribute with your code. I kinda suck at coding so any help is appreciated. Just submit a pull request, I will merge it or discuss it as soon as possible.
