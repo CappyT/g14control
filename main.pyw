@@ -82,7 +82,7 @@ def get_boost():
     return ac_boost
 
 
-def set_boost(state):
+def set_boost(state, notification=True):
     current_pwr = os.popen("powercfg /GETACTIVESCHEME")  # Just to be safe, let's get the current power scheme
     pwr_guid = current_pwr.readlines()[0].rsplit(": ")[1].rsplit(" (")[0].lstrip("\n")  # Parse the GUID
     if state is True:  # Activate boost
@@ -92,7 +92,8 @@ def set_boost(state):
         os.popen(
             "powercfg /setdcvalueindex " + pwr_guid + " 54533251-82be-4824-96c1-47b60b740d00 be337238-0d82-4146-a960-4f3749d470c7 1"
         )
-        notify("Boost ENABLED")  # Inform the user
+        if notification is True:
+            notify("Boost ENABLED")  # Inform the user
     elif state is False:  # Deactivate boost
         os.popen(
             "powercfg /setacvalueindex " + pwr_guid + " 54533251-82be-4824-96c1-47b60b740d00 be337238-0d82-4146-a960-4f3749d470c7 0"
@@ -100,7 +101,8 @@ def set_boost(state):
         os.popen(
             "powercfg /setdcvalueindex " + pwr_guid + " 54533251-82be-4824-96c1-47b60b740d00 be337238-0d82-4146-a960-4f3749d470c7 0"
         )
-        notify("Boost DISABLED")  # Inform the user
+        if notification is True:
+            notify("Boost DISABLED")  # Inform the user
 
 
 def get_dgpu():
@@ -114,7 +116,7 @@ def get_dgpu():
     return dgpu_ac
 
 
-def set_dgpu(state):
+def set_dgpu(state, notification=True):
     current_pwr = os.popen("powercfg /GETACTIVESCHEME")  # Just to be safe, let's get the current power scheme
     pwr_guid = current_pwr.readlines()[0].rsplit(": ")[1].rsplit(" (")[0].lstrip("\n")  # Parse the GUID
     if state is True:  # Activate dGPU
@@ -124,7 +126,8 @@ def set_dgpu(state):
         os.popen(
             "powercfg /setdcvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 2"
         )
-        notify("dGPU ENABLED")  # Inform the user
+        if notification is True:
+            notify("dGPU ENABLED")  # Inform the user
     elif state is False:  # Deactivate dGPU
         os.popen(
             "powercfg /setacvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 0"
@@ -132,7 +135,8 @@ def set_dgpu(state):
         os.popen(
             "powercfg /setdcvalueindex " + pwr_guid + " e276e160-7cb0-43c6-b20b-73f5dce39954 a1662ab2-9d34-4e53-ba8b-2639b9e20857 0"
         )
-        notify("dGPU DISABLED")  # Inform the user
+        if notification is True:
+            notify("dGPU DISABLED")  # Inform the user
 
 
 def set_atrofac(asus_plan, cpu_curve=None, gpu_curve=None):
@@ -169,8 +173,8 @@ def apply_plan(plan):
     global current_plan
     current_plan = plan['name']
     set_atrofac(plan['plan'], plan['cpu_curve'], plan['gpu_curve'])
-    set_boost(plan['boost'])
-    set_dgpu(plan['dgpu_enabled'])
+    set_boost(plan['boost'], False)
+    set_dgpu(plan['dgpu_enabled'], False)
     set_ryzenadj(plan['cpu_tdp'])
     notify("Applied plan " + plan['name'])
 
