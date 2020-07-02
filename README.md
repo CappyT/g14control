@@ -18,8 +18,7 @@ While is possibile to port this app to Linux, at the moment is engineered to wor
 Download the latest release zip from GitHub: https://github.com/CappyT/g14control/releases
 Extract it to some permanent location such as C:\Program Files\G14Control
 Edit the config.yml with text editor as needed (see configuring below)
-To make it run on boot, hit `Win + R` to open the run command box, type in `shell:startup` and hit enter. That will open a folder. Right click and drag the G14Control.exe to that new window and release, choose 'Create Shortcut to'
-Now it will run on startup.
+To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
 
 ### Configuring
 Under Plans, you can configure as many or few plans as you want. A plan includes:
