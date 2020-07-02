@@ -14,10 +14,36 @@ Not yet fully. See TODO for information about that.
 #### What about Linux?
 While is possibile to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
 
+### Installation
+Download the latest release zip from GitHub: https://github.com/CappyT/g14control/releases
+Extract it to some permanent location such as C:\Program Files\G14Control
+Edit the config.yml with text editor as needed (see configuring below)
+To make it run on boot, hit `Win + R` to open the run command box, type in `shell:startup` and hit enter. That will open a folder. Right click and drag the G14Control.exe to that new window and release, choose 'Create Shortcut to'
+Now it will run on startup.
+
+### Configuring
+Under Plans, you can configure as many or few plans as you want. A plan includes:
+- name:
+    This is where you will enter the name you want to be displayed for that plan
+  plan:
+    Name of the ROG Armory plan you want it sent on (`silent` or `windows` or `performance` or `turbo`)
+  cpu_curve:
+    An array of `temps_in_deg_C:fanspeed_percent` for custom fan curve such as "30c:0%,40c:0%,50c:0%,60c:0%,70c:34%,80c:51%,90c:61%,100c:61%". Otherwise use `null` for default
+  gpu_curve:
+    An array of `temps_in_deg_C:fanspeed_percent` for custom fan curve such as "30c:0%,40c:0%,50c:0%,60c:0%,70c:34%,80c:51%,90c:61%,100c:61%". Otherwise use `null` for default
+  cpu_tdp:
+    The tdp you want for the CPU, use `null` for default or numeric (45000 = 45W)
+  boost:
+    Whether you want the CPU to boost above it's 3.0Ghz base clock speed, `true` or `false`
+  dgpu_enabled:
+    Whether you want the dedicated NVIDIA GPU enabled (uses more power, need for graphics/games), `true`, `false`
+
+The config.yaml has many examples of plans included by default. Modify at will.
+
 ### Downloads:
 ~~Check the release tab!~~
 
-At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
+At the moment PyInstaller creates a corrupted EXE file, so it's not currently possible to package the app.
 
 ### How to build:
 Make sure python 3 and pip are installed. Then (as admin, in the source folder) run:
