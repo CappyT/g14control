@@ -22,6 +22,7 @@ To make it run on boot, you will need to follow these instructions since it requ
 
 ### Configuring
 Under Plans, you can configure as many or few plans as you want. A plan includes:
+```
 - name:
     This is where you will enter the name you want to be displayed for that plan
   plan:
@@ -36,6 +37,7 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
     Whether you want the CPU to boost above it's 3.0Ghz base clock speed, `true` or `false`
   dgpu_enabled:
     Whether you want the dedicated NVIDIA GPU enabled (uses more power, need for graphics/games), `true`, `false`
+```
 
 The config.yaml has many examples of plans included by default. Modify at will.
 
