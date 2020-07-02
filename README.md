@@ -12,7 +12,7 @@ G14Control (you can even rename it) can control the current ASUS Power plan, Fan
 Not yet fully. See TODO for information about that.
 
 #### What about Linux?
-While is possibile to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
+While is possible to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
 
 ### Installation
 Download the latest release zip from GitHub: https://github.com/CappyT/g14control/releases
@@ -21,7 +21,7 @@ Extract it to some permanent location such as C:\Program Files\G14Control
 
 Edit the config.yml with text editor as needed (see configuring below)
 
-To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
+~To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html~ currently getting python error 'failed to execute script'
 
 ### Configuring
 Under Plans, you can configure as many or few plans as you want. A plan includes:
@@ -29,7 +29,7 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
 - name:
     This is where you will enter the name you want to be displayed for that plan
   plan:
-    Name of the ROG Armory plan you want it sent on (`silent` or `windows` or `performance` or `turbo`)
+    Name of the ROG Armory plan you want it set on (`silent` or `windows` or `performance` or `turbo`)
   cpu_curve:
     An array of `temps_in_deg_C:fanspeed_percent` for custom fan curve such as "30c:0%,40c:0%,50c:0%,60c:0%,70c:34%,80c:51%,90c:61%,100c:61%". Otherwise use `null` for default
   gpu_curve:
@@ -82,7 +82,8 @@ You are very free to contribute with your code. I kinda suck at coding so any he
 - Better ~~engrish~~ english (sorry, is just not my native language)
 - .... you tell us!
 
-### Special thanks:
+### Contributors:
 - https://github.com/FlyGoat/RyzenAdj
 - https://github.com/cronosun/atrofac
 - https://github.com/dedo1911
+- https://github.com/carverhaines
