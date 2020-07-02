@@ -16,8 +16,11 @@ While is possibile to port this app to Linux, at the moment is engineered to wor
 
 ### Installation
 Download the latest release zip from GitHub: https://github.com/CappyT/g14control/releases
+
 Extract it to some permanent location such as C:\Program Files\G14Control
+
 Edit the config.yml with text editor as needed (see configuring below)
+
 To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
 
 ### Configuring
