@@ -151,6 +151,8 @@ def check_screen():
 
 
 def set_screen(refresh, notification=True):
+    if refresh is None:
+        return
     csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
     os.popen(
         csr + " /d=0 /f=" + str(refresh)
@@ -195,6 +197,7 @@ def apply_plan(plan):
     set_atrofac(plan['plan'], plan['cpu_curve'], plan['gpu_curve'])
     set_boost(plan['boost'], False)
     set_dgpu(plan['dgpu_enabled'], False)
+    set_screen(plan['plan'], False)
     set_ryzenadj(plan['cpu_tdp'])
     notify("Applied plan " + plan['name'])
 

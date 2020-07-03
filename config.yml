@@ -1,7 +1,7 @@
 app_name: "G14 Control"  # Name of the app, you can customize that as you wish!
 notification_time: 3  # How long notifications will stay on the screen
 check_power_every: 10  # Seconds in between checks to get the battery/ac status
-temp_dir: 'C:\temp\'
+temp_dir: 'C:\temp\' # MUST END with "\"!!
 plans:
   - name: Silent (fanless)
     plan: silent
@@ -10,6 +10,7 @@ plans:
     cpu_tdp: null
     boost: false
     dgpu_enabled: false
+    screen_hz: 60
   - name: Silent (low-speed fan)
     plan: silent
     cpu_curve: "30c:0%,40c:5%,50c:10%,60c:10%,70c:31%,80c:49%,90c:56%,100c:56%"
@@ -17,6 +18,7 @@ plans:
     cpu_tdp: null
     boost: false
     dgpu_enabled: false
+    screen_hz: 60
   - name: Silent (default fan speed)
     plan: silent
     cpu_curve: null
@@ -24,6 +26,7 @@ plans:
     cpu_tdp: null
     boost: false
     dgpu_enabled: false
+    screen_hz: null
   - name: Windows
     plan: windows
     cpu_curve: null
@@ -31,6 +34,7 @@ plans:
     cpu_tdp: null
     boost: false
     dgpu_enabled: false
+    screen_hz: 120
   - name: Performance
     plan: performance
     cpu_curve: null
@@ -38,6 +42,7 @@ plans:
     cpu_tdp: null
     boost: false
     dgpu_enabled: true
+    screen_hz: 120
   - name: Turbo
     plan: turbo
     cpu_curve: null
@@ -45,6 +50,7 @@ plans:
     cpu_tdp: null
     boost: false
     dgpu_enabled: true
+    screen_hz: 120
   - name: Extreme
     plan: turbo
     cpu_curve: null
@@ -52,3 +58,4 @@ plans:
     cpu_tdp: 45000
     boost: True
     dgpu_enabled: True
+    screen_hz: 60
