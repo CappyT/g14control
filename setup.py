@@ -1,6 +1,7 @@
 import cx_Freeze
 from cx_Freeze import *
 
+
 setup(
 	name = "G14Control",
     version = "0.1",
