@@ -1,3 +1,4 @@
+from pystray import _win32
 import pystray
 from PIL import Image
 import yaml

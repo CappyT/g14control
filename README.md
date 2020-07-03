@@ -21,7 +21,7 @@ Extract it to some permanent location such as C:\Program Files\G14Control
 
 Edit the config.yml with text editor as needed (see configuring below)
 
-~To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html~ currently getting python error 'failed to execute script'
+To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
 
 ### Configuring
 Under Plans, you can configure as many or few plans as you want. A plan includes:
@@ -45,18 +45,17 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
 The config.yaml has many examples of plans included by default. Modify at will.
 
 ### Downloads:
-~~Check the release tab!~~
+Check the release tab!
 
-At the moment PyInstaller creates a corrupted EXE file, so it's not currently possible to package the app.
 
 ### How to build:
 Make sure python 3 and pip are installed. Then (as admin, in the source folder) run:
 
 `pip install -r requirements.txt`
 
-`pip install pyinstaller`
+`python setup.py build`
 
-you can then run the script with: `python main.pyw`
+Then copy config.yml to the \build\exe.win-amd64-3.8\ directory, then reame & zip that folder for release!
 
 ##### NOTE: At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
 
