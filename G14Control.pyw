@@ -140,6 +140,25 @@ def set_dgpu(state, notification=True):
             notify("dGPU DISABLED")  # Inform the user
 
 
+def check_screen():
+    csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
+    screen = os.popen(csr + " /m /d=0")
+    output = screen.readlines()
+    if "@120Hz" in output[-1]:
+        return True
+    else:
+        return False
+
+
+def set_screen(refresh, notification=True):
+    csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
+    os.popen(
+        csr + " /d=0 /f=" + str(refresh)
+    )
+    if notification is True:
+        notify("Screen refresh rate set to: " + str(refresh) + "Hz")
+
+
 def set_atrofac(asus_plan, cpu_curve=None, gpu_curve=None):
     atrofac = str(os.path.join(config['temp_dir'] + "atrofac-cli.exe"))
     if cpu_curve is not None and gpu_curve is not None:
@@ -195,6 +214,10 @@ def create_menu():  # This will create the menu in the tray app
             pystray.MenuItem("dGPU ON", lambda: set_dgpu(True)),
             pystray.MenuItem("dGPU OFF", lambda: set_dgpu(False)),
         )),
+        pystray.MenuItem("Screen Refresh", pystray.Menu(
+            pystray.MenuItem("120Hz", lambda: set_screen(120)),
+            pystray.MenuItem("60Hz", lambda: set_screen(60)),
+        ), visible=check_screen()),
         pystray.Menu.SEPARATOR,
         # I have no idea of what I am doing, fo real, man.
         *list(map((lambda plan: pystray.MenuItem(plan['name'], (lambda: apply_plan(plan)))), config['plans'])),  # Blame @dedo1911 for this. You can find him on github.
