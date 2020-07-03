@@ -210,7 +210,7 @@ def load_config():  # Small function to load the config and return it after pars
 
    
 if __name__ == "__main__":
-    if is_admin():  #If running as admin, launch program
+    if is_admin() or os.environ['PYCHARM']:  # If running as admin or in debug mode, launch program
         current_plan = "DEFAULT"
         config = load_config()  # Make the config available to the whole script
         ac = None  # Defining a variable for ac power
@@ -221,5 +221,5 @@ if __name__ == "__main__":
         icon_app.icon = create_icon()  # This will set the icon itself (the graphical icon)
         icon_app.menu = create_menu()  # This will create the menu
         icon_app.run()  # This runs the icon. Is single threaded, blocking.
-    else:   # Re-run the program with admin rights
+    else:  # Re-run the program with admin rights
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
