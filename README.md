@@ -57,11 +57,6 @@ Make sure python 3 and pip are installed. Then (as admin, in the source folder) 
 
 Then copy config.yml to the \build\exe.win-amd64-3.8\ directory, then reame & zip that folder for release!
 
-##### NOTE: At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
-
-Or build an exe with:
-`pyinstaller -F --icon=res/icon.ico --noconsole --uac-admin --hidden-import pystray._win32 main.py`
-
 
 ### Contribute:
 You are very free to contribute with your code. I kinda suck at coding so any help is appreciated. Just submit a pull request, I will merge it or discuss it as soon as possible.
