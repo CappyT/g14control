@@ -35,11 +35,13 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
   gpu_curve:
     An array of `temps_in_deg_C:fanspeed_percent` for custom fan curve such as "30c:0%,40c:0%,50c:0%,60c:0%,70c:34%,80c:51%,90c:61%,100c:61%". Otherwise use `null` for default
   cpu_tdp:
-    The tdp you want for the CPU, use `null` for default or numeric (45000 = 45W)
+    The tdp you want for the CPU expressed in mW, use `null` for default or numeric (45000 = 45W)
   boost:
     Whether you want the CPU to boost above it's 3.0Ghz base clock speed, `true` or `false`
   dgpu_enabled:
     Whether you want the dedicated NVIDIA GPU enabled (uses more power, need for graphics/games), `true`, `false`
+  screen_hz:
+    The refresh rate of the screen. Can be 60 (numeric) or 120 (numeric) (for supported models) or null for default
 ```
 
 The config.yaml has many examples of plans included by default. Modify at will.
@@ -55,7 +57,7 @@ Make sure python 3 and pip are installed. Then (as admin, in the source folder) 
 
 `python setup.py build`
 
-Then copy config.yml to the \build\exe.win-amd64-3.8\ directory, then reame & zip that folder for release!
+Then copy config.yml to the \build\exe.win-amd64-3.8\ directory, then rename & zip that folder for release!
 
 
 ### Contribute:
