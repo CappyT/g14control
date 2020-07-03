@@ -12,26 +12,50 @@ G14Control (you can even rename it) can control the current ASUS Power plan, Fan
 Not yet fully. See TODO for information about that.
 
 #### What about Linux?
-While is possibile to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
+While is possible to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
+
+### Installation
+Download the latest release zip from GitHub: https://github.com/CappyT/g14control/releases
+
+Extract it to some permanent location such as C:\Program Files\G14Control
+
+Edit the config.yml with text editor as needed (see configuring below)
+
+To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
+
+### Configuring
+Under Plans, you can configure as many or few plans as you want. A plan includes:
+```
+- name:
+    This is where you will enter the name you want to be displayed for that plan
+  plan:
+    Name of the ROG Armory plan you want it set on (`silent` or `windows` or `performance` or `turbo`)
+  cpu_curve:
+    An array of `temps_in_deg_C:fanspeed_percent` for custom fan curve such as "30c:0%,40c:0%,50c:0%,60c:0%,70c:34%,80c:51%,90c:61%,100c:61%". Otherwise use `null` for default
+  gpu_curve:
+    An array of `temps_in_deg_C:fanspeed_percent` for custom fan curve such as "30c:0%,40c:0%,50c:0%,60c:0%,70c:34%,80c:51%,90c:61%,100c:61%". Otherwise use `null` for default
+  cpu_tdp:
+    The tdp you want for the CPU, use `null` for default or numeric (45000 = 45W)
+  boost:
+    Whether you want the CPU to boost above it's 3.0Ghz base clock speed, `true` or `false`
+  dgpu_enabled:
+    Whether you want the dedicated NVIDIA GPU enabled (uses more power, need for graphics/games), `true`, `false`
+```
+
+The config.yaml has many examples of plans included by default. Modify at will.
 
 ### Downloads:
-~~Check the release tab!~~
+Check the release tab!
 
-At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
 
 ### How to build:
 Make sure python 3 and pip are installed. Then (as admin, in the source folder) run:
 
 `pip install -r requirements.txt`
 
-`pip install pyinstaller`
+`python setup.py build`
 
-you can then run the script with: `python main.pyw`
-
-##### NOTE: At the moment PyInstaller creates a corrupted EXE file, so it's not currently possibile to package the app.
-
-Or build an exe with:
-`pyinstaller -F --icon=res/icon.ico --noconsole --uac-admin --hidden-import pystray._win32 main.py`
+Then copy config.yml to the \build\exe.win-amd64-3.8\ directory, then reame & zip that folder for release!
 
 
 ### Contribute:
@@ -52,7 +76,8 @@ You are very free to contribute with your code. I kinda suck at coding so any he
 - Better ~~engrish~~ english (sorry, is just not my native language)
 - .... you tell us!
 
-### Special thanks:
+### Contributors:
 - https://github.com/FlyGoat/RyzenAdj
 - https://github.com/cronosun/atrofac
 - https://github.com/dedo1911
+- https://github.com/carverhaines

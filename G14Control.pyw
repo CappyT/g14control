@@ -1,3 +1,4 @@
+from pystray import _win32
 import pystray
 from PIL import Image
 import yaml
@@ -207,17 +208,18 @@ def load_config():  # Small function to load the config and return it after pars
     with open('config.yml', 'r') as config_file:
         return yaml.load(config_file, Loader=yaml.FullLoader)
 
-
+   
 if __name__ == "__main__":
-    if not is_admin():
-        sys.exit(0)
-    current_plan = "DEFAULT"
-    config = load_config()  # Make the config available to the whole script
-    ac = None  # Defining a variable for ac power
-    Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
-    resources.extract(config['temp_dir'])
-    icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
-    icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
-    icon_app.icon = create_icon()  # This will set the icon itself (the graphical icon)
-    icon_app.menu = create_menu()  # This will create the menu
-    icon_app.run()  # This runs the icon. Is single threaded, blocking.
+    if is_admin():  #If running as admin, launch program
+        current_plan = "DEFAULT"
+        config = load_config()  # Make the config available to the whole script
+        ac = None  # Defining a variable for ac power
+        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
+        resources.extract(config['temp_dir'])
+        icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
+        icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
+        icon_app.icon = create_icon()  # This will set the icon itself (the graphical icon)
+        icon_app.menu = create_menu()  # This will create the menu
+        icon_app.run()  # This runs the icon. Is single threaded, blocking.
+    else:   # Re-run the program with admin rights
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
