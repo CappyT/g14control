@@ -210,8 +210,6 @@ def load_config():  # Small function to load the config and return it after pars
 
 if is_admin():  #If running as admin, launch program
     if __name__ == "__main__":
-        if not is_admin():
-            sys.exit(0)
         current_plan = "DEFAULT"
         config = load_config()  # Make the config available to the whole script
         ac = None  # Defining a variable for ac power
