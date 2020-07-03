@@ -6,7 +6,9 @@ setup(
 	options = {'buid_exe':{'packages':['resources','pystray._win32']}},
 	executables=[
 		Executable(
-			"main.pyw",
+			script="main.pyw",
+            icon="res\icon.ico",
+            base = "Win32GUI"
 			)
 		]
 	)
