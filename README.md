@@ -6,7 +6,7 @@ If you are a user like me, you hate using a bunch of different apps to control a
 It does combine all the option offered from other utilities into one, single, configurable TrayApp.
 
 #### What does it do?
-G14Control (you can even rename it) can control the current ASUS Power plan, Fan curve, Processor Boost Mode, Processor TDP and dGPU Activation to your needs with a simple right click on the Windows taskbar. You can configure all the presets (and add new ones too) from the `config.yml` file.
+G14Control (you can even rename it) can control the current ASUS Power plan, Fan curve, Processor Boost Mode, Processor TDP, dGPU Activation and Screen refresh rate to your needs with a simple right click on the Windows taskbar. You can configure all the presets (and add new ones too) from the `config.yml` file.
 
 #### Does it work?
 Not yet fully. See TODO for information about that.
