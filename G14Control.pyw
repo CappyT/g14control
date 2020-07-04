@@ -234,9 +234,9 @@ def load_config():  # Small function to load the config and return it after pars
     with open('config.yml', 'r') as config_file:
         return yaml.load(config_file, Loader=yaml.FullLoader)
 
-   
+
 if __name__ == "__main__":
-    if is_admin() or os.environ['PYCHARM']:  # If running as admin or in debug mode, launch program
+    if is_admin() or getattr(sys, 'gettrace', None):  # If running as admin or in debug mode, launch program
         current_plan = "DEFAULT"
         config = load_config()  # Make the config available to the whole script
         ac = None  # Defining a variable for ac power
