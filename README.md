@@ -64,7 +64,7 @@ Please note that this is an ALPHA version of this software, which is still under
 
 We will not be held liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the software or content. Any use of the software or scripts provided here is done at the user’s own risk and the user will be solely responsible for any damage to any computer system or loss of data that results from such activities.
 
-Should you encounter any bugs, glitches, lack of functionality or other problems on the website, please let us know in GitHub so we can look into addressing it.
+Should you encounter any bugs, glitches, lack of functionality or other problems with the software, please let us know in GitHub so we can look into addressing it.
 
 ### Contribute:
 You are very free to contribute with your code. I kinda suck at coding so any help is appreciated. Just submit a pull request, I will merge it or discuss it as soon as possible.
