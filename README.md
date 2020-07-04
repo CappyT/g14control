@@ -24,15 +24,15 @@ Edit the config.yml with text editor as needed (see configuring below)
 To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
 
 ### Configuring
-All done in config.yaml within the root folder of the program. The program must be restarted for any changes to the config.yaml to take effect. 
+All done in config.yaml within the root folder of the program. The program must be restarted for any changes to the config.yaml to take effect.
 
 `app_name:` can be customized, this is what the hover text displays over the icon and the windows notification title
 
 `default_starting_plan` set plan name you want on boot or on restart of the program
 
-`default_ac_plan` This plan name will automatically enable when AC adapter plugged in (set both default_ac_plan and default_dc_plan) to `null` to disable this feature
+`default_ac_plan` This plan name will automatically enable when AC adapter plugged in (set both default_ac_plan and default_dc_plan to `null` to disable this feature)
 
-`default_dc_plan` This plan name will automatically enable when on battery power (set both default_ac_plan and default_dc_plan) to `null` to disable this feature
+`default_dc_plan` This plan name will automatically enable when on battery power (set both default_ac_plan and default_dc_plan to `null` to disable this feature)
 
 ##### Power Plans:
 Under Plans, you can configure as many or few plans as you want. A plan includes:
