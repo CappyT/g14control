@@ -44,11 +44,17 @@ def create_icon():
 
 
 def power_check():
-    global ac
-    while True:
-        ac = psutil.sensors_battery().power_plugged
-        time.sleep(10)
-
+    global ac, current_plan, default_ac_plan, default_dc_plan
+    if default_ac_plan is not None and default_dc_plan is not None:     # Don't run if default power plans are not set (null)
+        while True:
+            ac = psutil.sensors_battery().power_plugged     # Get the current AC power status
+            if ac and current_plan != default_ac_plan:      # If on AC power, and not on the default_ac_plan, switch to that plan
+                apply_plan(default_ac_plan)
+            if not ac and current_plan != default_dc_plan:      # If on DC power, and not on the default_dc_plan, switch to that plan
+                apply_plan(default_dc_plan)
+            time.sleep(10)
+    else:
+        return
 
 def notify(message):
     Thread(target=do_notify, args=(message,), daemon=True).start()
@@ -234,12 +240,14 @@ def load_config():  # Small function to load the config and return it after pars
     with open('config.yml', 'r') as config_file:
         return yaml.load(config_file, Loader=yaml.FullLoader)
 
-   
+
 if __name__ == "__main__":
     if is_admin() or os.environ['PYCHARM']:  # If running as admin or in debug mode, launch program
-        current_plan = "DEFAULT"
         config = load_config()  # Make the config available to the whole script
-        ac = None  # Defining a variable for ac power
+        current_plan = config['default_starting_plan']
+        default_ac_plan = config['default_ac_plan']
+        default_dc_plan = config['default_dc_plan']
+        ac = psutil.sensors_battery().power_plugged  # Set AC/battery status on start
         Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
         resources.extract(config['temp_dir'])
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
