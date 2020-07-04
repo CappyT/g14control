@@ -32,7 +32,7 @@ def is_admin():
 def get_windows_theme():
     key = ConnectRegistry(None, HKEY_CURRENT_USER)  # By default, this is the local registry
     sub_key = OpenKey(key, "Software\Microsoft\Windows\CurrentVersion\Themes\Personalize")  # Let's open the subkey
-    value = QueryValueEx(sub_key, "AppsUseLightTheme")[0]  # index 0 is the value, index 1 is the type of key
+    value = QueryValueEx(sub_key, "SystemUsesLightTheme")[0]  # Taskbar (where icon is displayed) uses the 'System' light theme key. Index 0 is the value, index 1 is the type of key
     return value  # 1 for light theme, 0 for dark theme
 
 
@@ -234,7 +234,7 @@ def load_config():  # Small function to load the config and return it after pars
     with open('config.yml', 'r') as config_file:
         return yaml.load(config_file, Loader=yaml.FullLoader)
 
-   
+
 if __name__ == "__main__":
     if is_admin() or os.environ['PYCHARM']:  # If running as admin or in debug mode, launch program
         current_plan = "DEFAULT"
