@@ -59,6 +59,12 @@ Make sure python 3 and pip are installed. Then (as admin, in the source folder) 
 
 Then copy config.yml to the \build\exe.win-amd64-3.8\ directory, then rename & zip that folder for release!
 
+### Disclaimer
+Please note that this is an ALPHA version of this software, which is still undergoing testing and development. The software and all content found on GitHub related to it are provided “as is”. We do not give any warranties, whether express or implied, as to the safety, reliability, suitability or usability of the software or any of its content.
+
+We will not be held liable for any loss, whether such loss is direct, indirect, special or consequential, suffered by any party as a result of their use of the software or content. Any use of the software or scripts provided here is done at the user’s own risk and the user will be solely responsible for any damage to any computer system or loss of data that results from such activities.
+
+Should you encounter any bugs, glitches, lack of functionality or other problems with the software, please let us know in GitHub so we can look into addressing it.
 
 ### Contribute:
 You are very free to contribute with your code. I kinda suck at coding so any help is appreciated. Just submit a pull request, I will merge it or discuss it as soon as possible.
@@ -83,3 +89,4 @@ You are very free to contribute with your code. I kinda suck at coding so any he
 - https://github.com/cronosun/atrofac
 - https://github.com/dedo1911
 - https://github.com/carverhaines
+- https://tools.taubenkorb.at/change-screen-resolution/
