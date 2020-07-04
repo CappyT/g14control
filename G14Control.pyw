@@ -7,6 +7,7 @@ import ctypes
 import time
 import os
 import sys
+import re
 import psutil
 import resources
 from threading import Thread
@@ -140,25 +141,29 @@ def set_dgpu(state, notification=True):
             notify("dGPU DISABLED")  # Inform the user
 
 
-def check_screen():
+def check_screen():     #Checks to see if the G14 has a 120Hz capable screen or not
     csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
     screen = os.popen(csr + " /m /d=0")
     output = screen.readlines()
-    if "@120Hz" in output[-1]:
-        return True
+    for line in output:     # What was here previously didn't work for some reason, always output False
+        if re.search("@120Hz", line):
+            return True
     else:
         return False
 
 
 def set_screen(refresh, notification=True):
-    if refresh is None:
+    if check_screen():      #Before trying to change resolution, check that G14 is capable of 120Hz resolution
+        if refresh is None:
+            set_screen(120)     #If screen refresh rate is null (not set), set to default refresh rate of 120Hz
+        csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
+        os.popen(
+            csr + " /d=0 /f=" + str(refresh)
+        )
+        if notification is True:
+            notify("Screen refresh rate set to: " + str(refresh) + "Hz")
+    else:
         return
-    csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
-    os.popen(
-        csr + " /d=0 /f=" + str(refresh)
-    )
-    if notification is True:
-        notify("Screen refresh rate set to: " + str(refresh) + "Hz")
 
 
 def set_atrofac(asus_plan, cpu_curve=None, gpu_curve=None):
@@ -197,7 +202,7 @@ def apply_plan(plan):
     set_atrofac(plan['plan'], plan['cpu_curve'], plan['gpu_curve'])
     set_boost(plan['boost'], False)
     set_dgpu(plan['dgpu_enabled'], False)
-    set_screen(plan['plan'], False)
+    set_screen(plan['screen_hz'], False)
     set_ryzenadj(plan['cpu_tdp'])
     notify("Applied plan " + plan['name'])
 
@@ -234,7 +239,7 @@ def load_config():  # Small function to load the config and return it after pars
     with open('config.yml', 'r') as config_file:
         return yaml.load(config_file, Loader=yaml.FullLoader)
 
-   
+
 if __name__ == "__main__":
     if is_admin() or os.environ['PYCHARM']:  # If running as admin or in debug mode, launch program
         current_plan = "DEFAULT"

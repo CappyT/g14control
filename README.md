@@ -41,7 +41,7 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
   dgpu_enabled:
     Whether you want the dedicated NVIDIA GPU enabled (uses more power, need for graphics/games), `true`, `false`
   screen_hz:
-    The refresh rate of the screen. Can be 60 (numeric) or 120 (numeric) (for supported models) or null for default
+    The refresh rate of the screen. Can be 60 (numeric) or 120 (numeric) (for supported models) or null for default refresh rate of your monitor
 ```
 
 The config.yaml has many examples of plans included by default. Modify at will.
