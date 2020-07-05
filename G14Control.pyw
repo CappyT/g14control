@@ -241,9 +241,9 @@ def load_config():  # Small function to load the config and return it after pars
 
 
 if __name__ == "__main__":
-    if is_admin() or getattr(sys, 'gettrace', None):  # If running as admin or in debug mode, launch program
+    config = load_config()  # Make the config available to the whole script
+    if is_admin() or config['debug']:  # If running as admin or in debug mode, launch program
         current_plan = "DEFAULT"
-        config = load_config()  # Make the config available to the whole script
         ac = None  # Defining a variable for ac power
         Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
         resources.extract(config['temp_dir'])
