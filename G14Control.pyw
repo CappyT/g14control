@@ -62,14 +62,32 @@ def do_notify(message):
     icon_app.remove_notification()  # Then, we will remove the notification
 
 
-def get_current():
+def get_current():      #Get current state for everything and generate windows notification w/ info
     global ac, current_plan
+    # Convert booleans to understantable text:
+    if ac:
+        notify_power = "AC Adapter"
+    else:
+        notify_power = "Battery"
+    if check_screen():
+        notify_screen = "120Hz"
+    else:
+        notify_screen = "60Hz"
+    if get_boost():
+        notify_boost = "ON"
+    else:
+        notify_boost = "OFF"
+    if get_dgpu():
+        notify_dgpu = "ON"
+    else:
+        notify_dgpu = "OFF"
+    # Send Windows notification:
     notify(
-        "Current config: " + current_plan + "\n" +
-        "Boost active: " + str(get_boost()) + "\n" +
-        "AC: " + str(ac) + "\n" +
-        "dGPU: " + str(get_dgpu()) + "\n"
-    )  # Let's print the current values
+        "Plan: " + current_plan + "\n" +
+        "Boost: " + str(notify_boost) + "       dGPU: " + str(notify_dgpu) + "\n" +
+        "Refresh Rate: " + str(notify_screen) + "\n" +
+        "Power: " + str(notify_power) + "\n"
+    )
 
 
 def get_boost():
