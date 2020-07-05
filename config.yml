@@ -2,6 +2,7 @@ app_name: "G14 Control"  # Name of the app, you can customize that as you wish!
 notification_time: 3  # How long notifications will stay on the screen
 check_power_every: 10  # Seconds in between checks to get the battery/ac status
 temp_dir: 'C:\temp\' # MUST END with "\"!!
+debug: false # true/false Don't change unless you know what you are doing!!!
 plans:
   - name: Silent (fanless)
     plan: silent
