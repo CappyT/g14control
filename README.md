@@ -21,7 +21,7 @@ Extract it to some permanent location such as C:\Program Files\G14Control
 
 Edit the config.yml with text editor as needed (see configuring below)
 
-To make it run on boot you will have to create a windows task, please see [our Autostart instructions] (AUTOSTART.md)
+To make it run on boot you will have to create a windows task, please see [our Autostart instructions](AUTOSTART.md)
 
 ### Configuring
 Under Plans, you can configure as many or few plans as you want. A plan includes:
