@@ -1,5 +1,5 @@
 # G14Control
-## A simple tray app to control G14 Power options
+## A simple tray app to control Asus Zephyrus G14 Power options
 
 #### Background:
 If you are a user like me, you hate using a bunch of different apps to control all the power saving options of your laptop (sometimes even hidden in the registry) and prefer a simple, handy, tray app utility. The focus of this application is just that!
