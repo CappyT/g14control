@@ -1,15 +1,15 @@
 # G14Control
-## A simple tray app to control G14 Power options
+## A simple tray app to control ASUS Zephyrus G14 Power options
 
 #### Background:
-If you are a user like me, you hate using a bunch of different apps to control all the power saving options of your laptop (sometimes even hidden in the registry) and prefer a simple, handy, tray app utility. The focus of this application is just that!
-It does combine all the option offered from other utilities into one, single, configurable TrayApp.
+Do you hate using a bunch of different apps to control all the power saving options of your laptop (sometimes even hidden in the registry) and prefer a simple, handy, tray app utility? The focus of this application is just that!
+G14Control combines features of multiple utilities into one, single, configurable TrayApp.
 
 #### What does it do?
-G14Control (you can even rename it) can control the current ASUS Power plan, Fan curve, Processor Boost Mode, Processor TDP, dGPU Activation and Screen refresh rate to your needs with a simple right click on the Windows taskbar. You can configure all the presets (and add new ones too) from the `config.yml` file.
+G14Control can control the current ASUS Power plan, Fan curve, Processor Boost Mode, Processor TDP, dGPU Activation and Screen refresh rate to your needs with a simple right click on the Windows taskbar. You can configure all the presets (and add new ones too) from the `config.yml` file. You can even rename the program if you want!
 
 #### Does it work?
-Not yet fully. See TODO for information about that.
+Yes, mostly! Please submit any feature requests or problem thru GitHub.
 
 #### What about Linux?
 While is possible to port this app to Linux, at the moment is engineered to work only on Windows. It will be ported to Linux someday as I see the need for it.
@@ -47,7 +47,7 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
 The config.yaml has many examples of plans included by default. Modify at will.
 
 ### Downloads:
-Check the release tab!
+Check the [release tab](https://github.com/CappyT/g14control/release)!
 
 
 ### How to build:
@@ -66,23 +66,18 @@ We will not be held liable for any loss, whether such loss is direct, indirect, 
 
 Should you encounter any bugs, glitches, lack of functionality or other problems with the software, please let us know in GitHub so we can look into addressing it.
 
-### Contribute:
-You are very free to contribute with your code. I kinda suck at coding so any help is appreciated. Just submit a pull request, I will merge it or discuss it as soon as possible.
-
 ### TODO:
 - Automatic config generation
-- ~~Dynamic Menu generation based on configured profiles~~ Implemented
-- ~~atrofac commands integration~~ Implemented
-- ~~ryzenadj command integration~~ Implemented
-- ~~Parallel notification spawning (right now when notification is displayed the whole app locks until the notification disappears)~~ Kinda buggy, but better.
 - Different options for AC/DC modes
-- Windows power plan switching (is it needed?)
+- Windows power plan switching?
 - Logging
 - Better binary storage
-- Better UI (?)
+- Better UI?
 - Better code comments
-- Better ~~engrish~~ english (sorry, is just not my native language)
-- .... you tell us!
+- Ideas? Submit a feature request!
+
+### Contribute:
+You are very free to contribute with your code. We can use the help. Just submit a pull request, I will merge it or discuss it as soon as possible.
 
 ### Contributors:
 - https://github.com/FlyGoat/RyzenAdj
