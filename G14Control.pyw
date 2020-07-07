@@ -66,8 +66,8 @@ def get_current():
     global ac, current_plan
     notify(
         "Plan: " + current_plan + "\n" +
-        "Boost: " + (["Off", "On"][get_boost()]) + "\n" +
-        "dGPU: " + (["Off", "On"][get_dgpu()]) + "\n" +
+        "Boost: " + (["Off", "On"][get_boost()]) + "     dGPU: " + (["Off", "On"][get_dgpu()]) + "\n" +
+        "Refresh Rate: " + (["60Hz", "120Hz"][get_screen()]) + "\n" +
         "Power: " + (["Battery", "AC"][bool(ac)]) + "\n"
         # "Refresh Rate: " + str(notify_screen) + "\n" # running check screen will NOT return the current setting!
     )  # Let's print the current values
@@ -143,10 +143,20 @@ def set_dgpu(state, notification=True):
 
 
 def check_screen():  # Checks to see if the G14 has a 120Hz capable screen or not
-    csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
-    screen = os.popen(csr + " /m /d=0")
+    checkscreenref = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
+    screen = os.popen(checkscreenref + " /m /d=0")  # /m lists all possible resolutions & refresh rates
     output = screen.readlines()
-    for line in output:     # What was here previously didn't work for some reason, always output False
+    for line in output:
+        if re.search("@120Hz", line):
+            return True
+    else:
+        return False
+
+def get_screen():   #Gets the current screen resolution
+    getscreenref = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
+    screen = os.popen(getscreenref + " /l /d=0")  # /l lists all current resolution & refresh rate
+    output = screen.readlines()
+    for line in output:
         if re.search("@120Hz", line):
             return True
     else:
@@ -157,9 +167,9 @@ def set_screen(refresh, notification=True):
     if check_screen():  # Before trying to change resolution, check that G14 is capable of 120Hz resolution
         if refresh is None:
             set_screen(120)  # If screen refresh rate is null (not set), set to default refresh rate of 120Hz
-        csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
+        checkscreenref = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
         os.popen(
-            csr + " /d=0 /f=" + str(refresh)
+            checkscreenref + " /d=0 /f=" + str(refresh)
         )
         if notification is True:
             notify("Screen refresh rate set to: " + str(refresh) + "Hz")
