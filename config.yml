@@ -5,6 +5,7 @@ temp_dir: 'C:\temp\' # MUST END with "\"!!
 default_starting_plan: "Windows"
 default_ac_plan: "Performance"
 default_dc_plan: "Silent (low-speed fan)"
+debug: false # true/false Don't change unless you know what you are doing!!!
 plans:
   - name: Silent (fanless)
     plan: silent

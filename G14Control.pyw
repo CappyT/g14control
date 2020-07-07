@@ -71,10 +71,11 @@ def do_notify(message):
 def get_current():
     global ac, current_plan
     notify(
-        "Current config: " + current_plan + "\n" +
-        "Boost active: " + str(get_boost()) + "\n" +
-        "AC: " + str(ac) + "\n" +
-        "dGPU: " + str(get_dgpu()) + "\n"
+        "Plan: " + current_plan + "\n" +
+        "Boost: " + (["Off", "On"][get_boost()]) + "\n" +
+        "dGPU: " + (["Off", "On"][get_dgpu()]) + "\n" +
+        "Power: " + (["Battery", "AC"][bool(ac)]) + "\n"
+        # "Refresh Rate: " + str(notify_screen) + "\n" # running check screen will NOT return the current setting!
     )  # Let's print the current values
 
 
@@ -147,7 +148,7 @@ def set_dgpu(state, notification=True):
             notify("dGPU DISABLED")  # Inform the user
 
 
-def check_screen():     #Checks to see if the G14 has a 120Hz capable screen or not
+def check_screen():  # Checks to see if the G14 has a 120Hz capable screen or not
     csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
     screen = os.popen(csr + " /m /d=0")
     output = screen.readlines()
@@ -159,9 +160,9 @@ def check_screen():     #Checks to see if the G14 has a 120Hz capable screen or 
 
 
 def set_screen(refresh, notification=True):
-    if check_screen():      #Before trying to change resolution, check that G14 is capable of 120Hz resolution
+    if check_screen():  # Before trying to change resolution, check that G14 is capable of 120Hz resolution
         if refresh is None:
-            set_screen(120)     #If screen refresh rate is null (not set), set to default refresh rate of 120Hz
+            set_screen(120)  # If screen refresh rate is null (not set), set to default refresh rate of 120Hz
         csr = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
         os.popen(
             csr + " /d=0 /f=" + str(refresh)
@@ -247,8 +248,8 @@ def load_config():  # Small function to load the config and return it after pars
 
 
 if __name__ == "__main__":
-    if is_admin() or os.environ['PYCHARM']:  # If running as admin or in debug mode, launch program
-        config = load_config()  # Make the config available to the whole script
+    config = load_config()  # Make the config available to the whole script
+    if is_admin() or config['debug']:  # If running as admin or in debug mode, launch program
         current_plan = config['default_starting_plan']
         default_ac_plan = config['default_ac_plan']
         default_dc_plan = config['default_dc_plan']
