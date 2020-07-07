@@ -154,7 +154,7 @@ def check_screen():  # Checks to see if the G14 has a 120Hz capable screen or no
 
 def get_screen():   #Gets the current screen resolution
     getscreenref = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
-    screen = os.popen(getscreenref + " /l /d=0")  # /l lists all current resolution & refresh rate
+    screen = os.popen(getscreenref + " /l /d=0")  # /l lists current resolution & refresh rate
     output = screen.readlines()
     for line in output:
         if re.search("@120Hz", line):
