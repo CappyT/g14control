@@ -54,13 +54,11 @@ def power_check():
                     if plan['name'] == default_ac_plan:
                         break
                 apply_plan(plan)
-                print("finished applying AC plan: " + default_ac_plan)
             if not ac and current_plan != default_dc_plan:      # If on DC power, and not on the default_dc_plan, switch to that plan
                 for plan in config['plans']:
                     if plan['name'] == default_dc_plan:
                         break
                 apply_plan(plan)
-                print("finished applying DC plan: " + default_dc_plan)
             time.sleep(10)
     else:
         return
