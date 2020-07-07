@@ -69,7 +69,6 @@ def get_current():
         "Boost: " + (["Off", "On"][get_boost()]) + "     dGPU: " + (["Off", "On"][get_dgpu()]) + "\n" +
         "Refresh Rate: " + (["60Hz", "120Hz"][get_screen()]) + "\n" +
         "Power: " + (["Battery", "AC"][bool(ac)]) + "\n"
-        # "Refresh Rate: " + str(notify_screen) + "\n" # running check screen will NOT return the current setting!
     )  # Let's print the current values
 
 
@@ -152,7 +151,8 @@ def check_screen():  # Checks to see if the G14 has a 120Hz capable screen or no
     else:
         return False
 
-def get_screen():   #Gets the current screen resolution
+
+def get_screen():  # Gets the current screen resolution
     getscreenref = str(os.path.join(config['temp_dir'] + 'ChangeScreenResolution.exe'))
     screen = os.popen(getscreenref + " /l /d=0")  # /l lists current resolution & refresh rate
     output = screen.readlines()
