@@ -51,6 +51,30 @@ def power_check():
         time.sleep(10)
 
 
+def gaming_check():     # Checks if user specified games/programs are running, and switches to user defined plan, then switches back once closed
+    global default_gaming_plan, default_gaming_plan_games
+    previous_plan = None    # Define the previous plan to switch back to
+    while True: # Continuously check every 10 seconds
+        processes = set(p.name() for p in psutil.process_iter())    # List of windows processes
+        targets = set(default_gaming_plan_games)    # List of user defined processes
+        if processes & targets:     # Compare 2 lists, if ANY overlap, set game_running to true
+            game_running = True
+        else:
+            game_running = False
+        if game_running and current_plan != default_gaming_plan:    # If game is running and not on the desired gaming plan, switch to that plan
+            previous_plan = current_plan
+            for plan in config['plans']:
+                if plan['name'] == default_gaming_plan:
+                    break
+            apply_plan(plan)
+        if not game_running and previous_plan is not None and previous_plan != current_plan:    # If game is no longer running, and not on previous plan already (if set), then switch back to previous plan
+            for plan in config['plans']:
+                if plan['name'] == previous_plan:
+                    break
+            apply_plan(plan)
+        time.sleep(10)      # Check for programs every 10 sec
+
+
 def notify(message):
     Thread(target=do_notify, args=(message,), daemon=True).start()
 
@@ -257,6 +281,10 @@ if __name__ == "__main__":
         current_plan = "DEFAULT"
         ac = None  # Defining a variable for ac power
         Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
+        default_gaming_plan_games = config['default_gaming_plan_games']
+        default_gaming_plan = config['default_gaming_plan']
+        if config['default_gaming_plan'] is not None and config['default_gaming_plan_games'] is not None:   # Check if the gaming auto switch is enabled (both user variables are not null), then start a thread to continuously monitor processes in background.
+            Thread(target=gaming_check, daemon=True).start()
         resources.extract(config['temp_dir'])
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
         icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon

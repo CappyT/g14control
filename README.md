@@ -24,6 +24,23 @@ Edit the config.yml with text editor as needed (see configuring below)
 To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
 
 ### Configuring
+All done in config.yaml within the root folder of the program. The program must be restarted for any changes to the config.yaml to take effect.
+
+`app_name:` can be customized, this is what the hover text displays over the icon and the windows notification title
+
+`default_starting_plan` set plan name you want on boot or on restart of the program
+
+`default_ac_plan` This plan name will automatically enable when AC adapter plugged in (set both default_ac_plan and default_dc_plan to `null` to disable this feature)
+
+`default_dc_plan` This plan name will automatically enable when on battery power (set both default_ac_plan and default_dc_plan to `null` to disable this feature)
+
+`default_gaming_plan` Enable this if you want the program to auto-switch plans based on games (or any program really) running. It will automatically switch to the plan specified here when the program is launched, and automatically switch back to the previous plan once it has closed. Set to `null` to disable.
+- WARNING: this may be more resource intensive as it polls running processes on your computer every 10 seconds. However I noticed little difference, and almost no score change on Heaven Benchmark (FPS +/- 2).
+
+`default_gaming_plan_games` This will be a list of exe's that you want to detect. Please check the exact name of the exe. For example, Steam is SteamService.exe. Example list: ["7zFM.exe", "notepad++.exe", "SteamService.exe"]
+
+
+##### Configure plans
 Under Plans, you can configure as many or few plans as you want. A plan includes:
 ```
 - name:
