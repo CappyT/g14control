@@ -68,14 +68,14 @@ def power_check():
 def activate_powerswitching():
     global auto_power_switch
     auto_power_switch = True
-    time.sleep(5)
+    time.sleep(5)   # Plan change notifies first, so this needs to be on a delay to prevent simultaneous notifications
     notify("Auto power switching has been ENABLED")
 
 
 def deactivate_powerswitching():
     global auto_power_switch
     auto_power_switch = False
-    time.sleep(5)
+    time.sleep(5)   # Plan change notifies first, so this needs to be on a delay to prevent simultaneous notifications
     notify("Auto power switching has been DISABLED")
 
 
