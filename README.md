@@ -34,6 +34,11 @@ All done in config.yaml within the root folder of the program. The program must 
 
 `default_dc_plan` This plan name will automatically enable when on battery power (set both default_ac_plan and default_dc_plan to `null` to disable this feature)
 
+##### Notes on using Auto Power Switching:
+- Only available if `default_ac_plan` and `default_dc_plan` are set in config (set to `null` to disable)
+- Manually changing your plan thru the icon menu will DISABLE auto power switching.
+- To re-enable, click the "Re-Enable Auto Power Switching" option in the icon menu.
+
 ##### Power Plans:
 Under Plans, you can configure as many or few plans as you want. A plan includes:
 ```
