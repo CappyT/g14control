@@ -51,6 +51,30 @@ def power_check():
         time.sleep(10)
 
 
+def gaming_check():
+    global default_gaming_plan, default_gaming_plan_games
+    previous_plan = None
+    while True:
+        processes = set(p.name() for p in psutil.process_iter())
+        targets = set(default_gaming_plan_games)
+        if processes & targets:
+            game_running = True
+        else:
+            game_running = False
+        if game_running and current_plan != default_gaming_plan:
+            previous_plan = current_plan
+            for plan in config['plans']:
+                if plan['name'] == default_gaming_plan:
+                    break
+            apply_plan(plan)
+        if not game_running and previous_plan is not None and previous_plan != current_plan:
+            for plan in config['plans']:
+                if plan['name'] == previous_plan:
+                    break
+            apply_plan(plan)
+        time.sleep(10)
+
+
 def notify(message):
     Thread(target=do_notify, args=(message,), daemon=True).start()
 
@@ -257,6 +281,10 @@ if __name__ == "__main__":
         current_plan = "DEFAULT"
         ac = None  # Defining a variable for ac power
         Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
+        default_gaming_plan_games = config['default_gaming_plan_games']
+        default_gaming_plan = config['default_gaming_plan']
+        if config['default_gaming_plan'] is not None and config['default_gaming_plan_games'] is not None:
+            Thread(target=gaming_check, daemon=True).start()
         resources.extract(config['temp_dir'])
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
         icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
