@@ -209,6 +209,7 @@ def set_ryzenadj(tdp):
 
 def apply_plan(plan):
     global current_plan
+    time.sleep(config['plan_change_delay'])
     current_plan = plan['name']
     set_atrofac(plan['plan'], plan['cpu_curve'], plan['gpu_curve'])
     set_boost(plan['boost'], False)
