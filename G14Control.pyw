@@ -92,7 +92,7 @@ def get_current():
         "Plan: " + current_plan + "\n" +
         "Boost: " + (["Off", "On"][get_boost()]) + "     dGPU: " + (["Off", "On"][get_dgpu()]) + "\n" +
         "Refresh Rate: " + (["60Hz", "120Hz"][get_screen()]) + "\n" +
-        "Power: " + (["Battery", "AC"][bool(ac)]) + "\n"
+        "Power: " + (["Battery", "AC"][bool(ac)]) + "     Auto Switching: " + (["Off", "On"][auto_power_switch]) + "\n"
     )  # Let's print the current values
 
 
@@ -284,7 +284,7 @@ if __name__ == "__main__":
         default_ac_plan = config['default_ac_plan']
         default_dc_plan = config['default_dc_plan']
         ac = psutil.sensors_battery().power_plugged  # Set AC/battery status on start
-        if default_ac_plan is not None and default_dc_plan is not None:  # Only enable auto_power_plan on boot if default power plans are enabled (not set to null)
+        if default_ac_plan is not None and default_dc_plan is not None:  # Only enable auto_power_switch on boot if default power plans are enabled (not set to null)
             auto_power_switch = True
         else:
             auto_power_switch = False
