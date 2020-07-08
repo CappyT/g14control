@@ -68,11 +68,15 @@ def power_check():
 def activate_powerswitching():
     global auto_power_switch
     auto_power_switch = True
+    time.sleep(5)
+    notify("Auto power switching has been ENABLED")
 
 
 def deactivate_powerswitching():
     global auto_power_switch
     auto_power_switch = False
+    time.sleep(5)
+    notify("Auto power switching has been DISABLED")
 
 
 def notify(message):
