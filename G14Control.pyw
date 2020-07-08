@@ -45,23 +45,35 @@ def create_icon():
 
 
 def power_check():
-    global ac, current_plan, default_ac_plan, default_dc_plan
-    if default_ac_plan is not None and default_dc_plan is not None:     # Don't run if default power plans are not set (null)
+    global auto_power_switch, ac, current_plan, default_ac_plan, default_dc_plan
+    if auto_power_switch:     # Only run while loop on startup if auto_power_switch is On (True)
         while True:
-            ac = psutil.sensors_battery().power_plugged     # Get the current AC power status
-            if ac and current_plan != default_ac_plan:      # If on AC power, and not on the default_ac_plan, switch to that plan
-                for plan in config['plans']:
-                    if plan['name'] == default_ac_plan:
-                        break
-                apply_plan(plan)
-            if not ac and current_plan != default_dc_plan:      # If on DC power, and not on the default_dc_plan, switch to that plan
-                for plan in config['plans']:
-                    if plan['name'] == default_dc_plan:
-                        break
-                apply_plan(plan)
-            time.sleep(10)
+            if auto_power_switch:   # Check to user hasn't disabled auto_power_switch (i.e. by manually switching plans)
+                ac = psutil.sensors_battery().power_plugged     # Get the current AC power status
+                if ac and current_plan != default_ac_plan:      # If on AC power, and not on the default_ac_plan, switch to that plan
+                    for plan in config['plans']:
+                        if plan['name'] == default_ac_plan:
+                            break
+                    apply_plan(plan)
+                if not ac and current_plan != default_dc_plan:      # If on DC power, and not on the default_dc_plan, switch to that plan
+                    for plan in config['plans']:
+                        if plan['name'] == default_dc_plan:
+                            break
+                    apply_plan(plan)
+                time.sleep(10)
     else:
         return
+
+
+def activate_powerswitching():
+    global auto_power_switch
+    auto_power_switch = True
+
+
+def deactivate_powerswitching():
+    global auto_power_switch
+    auto_power_switch = False
+
 
 def notify(message):
     Thread(target=do_notify, args=(message,), daemon=True).start()
@@ -240,8 +252,10 @@ def create_menu():  # This will create the menu in the tray app
             pystray.MenuItem("60Hz", lambda: set_screen(60)),
         ), visible=check_screen()),
         pystray.Menu.SEPARATOR,
+        pystray.MenuItem("Re-Enable Auto Power Switching", activate_powerswitching),
+        pystray.Menu.SEPARATOR,
         # I have no idea of what I am doing, fo real, man.
-        *list(map((lambda plan: pystray.MenuItem(plan['name'], (lambda: apply_plan(plan)))), config['plans'])),  # Blame @dedo1911 for this. You can find him on github.
+        *list(map((lambda plan: pystray.MenuItem(plan['name'], (lambda: (apply_plan(plan),deactivate_powerswitching())))), config['plans'])),  # Blame @dedo1911 for this. You can find him on github.
         pystray.Menu.SEPARATOR,
         pystray.MenuItem("Quit", quit_app)  # This to close the app, we will need it.
     )
@@ -260,7 +274,11 @@ if __name__ == "__main__":
         default_ac_plan = config['default_ac_plan']
         default_dc_plan = config['default_dc_plan']
         ac = psutil.sensors_battery().power_plugged  # Set AC/battery status on start
-        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
+        if default_ac_plan is not None and default_dc_plan is not None:  # Only enable auto_power_plan on boot if default power plans are enabled (not set to null)
+            auto_power_switch = True
+        else:
+            auto_power_switch = False
+        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC, autoswitch plan if enabled and detected
         resources.extract(config['temp_dir'])
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
         icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
