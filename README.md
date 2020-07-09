@@ -23,7 +23,7 @@ Edit the config.yml with text editor as needed (see configuring below)
 
 ### Configuring
 
-`start_on_boot` Set this to `true` or `false`. Note this will create a Windows Registry entry to enable starting on login. Must have files extracted to a permanent location as above.
+`start_on_boot` Set this to `true` or `false`. Note this will create a Windows Registry entry to enable starting on login. Must have files extracted to a permanent location as above. Note: This will popup an administrator UAC prompt the first time you login after each boot.
 
 Under Plans, you can configure as many or few plans as you want. A plan includes:
 ```
