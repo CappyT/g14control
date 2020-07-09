@@ -10,6 +10,7 @@ import sys
 import re
 import psutil
 import resources
+import winreg
 from threading import Thread
 
 
@@ -247,17 +248,50 @@ def create_menu():  # This will create the menu in the tray app
 
 
 def load_config():  # Small function to load the config and return it after parsing
-    with open('config.yml', 'r') as config_file:
+    global G14dir
+    config_loc = os.path.join(G14dir,"config.yml")      # Set absolute path for config.yaml
+    with open(config_loc, 'r') as config_file:
         return yaml.load(config_file, Loader=yaml.FullLoader)
 
 
+def registry_check():     # Checks if G14Control registry entry exists already
+    global registry_key_loc, G14dir
+    G14exe = "G14Control.exe"
+    G14fileloc = os.path.join(G14dir,G14exe)
+    G14Key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, registry_key_loc)
+    try:
+        i = 0
+        while 1:
+            name, value, type = winreg.EnumValue(G14Key, i)
+            if name == "G14Control" and value == G14fileloc:
+                return True
+            i += 1
+    except WindowsError:
+        return False
+
+
+def registry_add():     # Adds G14Control.exe to the windows registry to start on boot/login
+    global registry_key_loc, G14dir
+    G14exe = "G14Control.exe"
+    G14fileloc = os.path.join(G14dir,G14exe)
+    G14Key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, registry_key_loc, 0, winreg.KEY_SET_VALUE)
+    winreg.SetValueEx(G14Key, "G14Control", 1, winreg.REG_SZ, G14fileloc)
+
+
 if __name__ == "__main__":
+    if getattr(sys, 'frozen', False):   # Sets the path accordingly whether it is a python script or a frozen .exe
+        G14dir = os.path.dirname(sys.executable)
+    elif __file__:
+        G14dir = os.path.dirname(__file__)
     config = load_config()  # Make the config available to the whole script
     if is_admin() or config['debug']:  # If running as admin or in debug mode, launch program
         current_plan = "DEFAULT"
         ac = None  # Defining a variable for ac power
         Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
         resources.extract(config['temp_dir'])
+        registry_key_loc = r'Software\Microsoft\Windows\CurrentVersion\Run'
+        if config['start_on_boot'] and not config['debug'] and not registry_check():    # Adds registry entry if enabled in config, but not when in debug mode and if not registry entry is already existing
+            registry_add()
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
         icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
         icon_app.icon = create_icon()  # This will set the icon itself (the graphical icon)
