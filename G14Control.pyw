@@ -45,10 +45,38 @@ def create_icon():
 
 
 def power_check():
-    global ac
-    while True:
-        ac = psutil.sensors_battery().power_plugged
-        time.sleep(10)
+    global auto_power_switch, ac, current_plan, default_ac_plan, default_dc_plan
+    if auto_power_switch:     # Only run while loop on startup if auto_power_switch is On (True)
+        while True:
+            if auto_power_switch:   # Check to user hasn't disabled auto_power_switch (i.e. by manually switching plans)
+                ac = psutil.sensors_battery().power_plugged     # Get the current AC power status
+                if ac and current_plan != default_ac_plan:      # If on AC power, and not on the default_ac_plan, switch to that plan
+                    for plan in config['plans']:
+                        if plan['name'] == default_ac_plan:
+                            break
+                    apply_plan(plan)
+                if not ac and current_plan != default_dc_plan:      # If on DC power, and not on the default_dc_plan, switch to that plan
+                    for plan in config['plans']:
+                        if plan['name'] == default_dc_plan:
+                            break
+                    apply_plan(plan)
+                time.sleep(10)
+    else:
+        return
+
+
+def activate_powerswitching():
+    global auto_power_switch
+    auto_power_switch = True
+    time.sleep(10)   # Plan change notifies first, so this needs to be on a delay to prevent simultaneous notifications
+    notify("Auto power switching has been ENABLED")
+
+
+def deactivate_powerswitching():
+    global auto_power_switch
+    auto_power_switch = False
+    time.sleep(10)   # Plan change notifies first, so this needs to be on a delay to prevent simultaneous notifications
+    notify("Auto power switching has been DISABLED")
 
 
 def notify(message):
@@ -68,7 +96,7 @@ def get_current():
         "Plan: " + current_plan + "\n" +
         "Boost: " + (["Off", "On"][get_boost()]) + "     dGPU: " + (["Off", "On"][get_dgpu()]) + "\n" +
         "Refresh Rate: " + (["60Hz", "120Hz"][get_screen()]) + "\n" +
-        "Power: " + (["Battery", "AC"][bool(ac)]) + "\n"
+        "Power: " + (["Battery", "AC"][bool(ac)]) + "     Auto Switching: " + (["Off", "On"][auto_power_switch]) + "\n"
     )  # Let's print the current values
 
 
@@ -238,8 +266,10 @@ def create_menu():  # This will create the menu in the tray app
             pystray.MenuItem("60Hz", lambda: set_screen(60)),
         ), visible=check_screen()),
         pystray.Menu.SEPARATOR,
+        pystray.MenuItem("Re-Enable Auto Power Switching", activate_powerswitching),
+        pystray.Menu.SEPARATOR,
         # I have no idea of what I am doing, fo real, man.
-        *list(map((lambda plan: pystray.MenuItem(plan['name'], (lambda: apply_plan(plan)))), config['plans'])),  # Blame @dedo1911 for this. You can find him on github.
+        *list(map((lambda plan: pystray.MenuItem(plan['name'], (lambda: (apply_plan(plan),deactivate_powerswitching())))), config['plans'])),  # Blame @dedo1911 for this. You can find him on github.
         pystray.Menu.SEPARATOR,
         pystray.MenuItem("Quit", quit_app)  # This to close the app, we will need it.
     )
@@ -254,9 +284,15 @@ def load_config():  # Small function to load the config and return it after pars
 if __name__ == "__main__":
     config = load_config()  # Make the config available to the whole script
     if is_admin() or config['debug']:  # If running as admin or in debug mode, launch program
-        current_plan = "DEFAULT"
-        ac = None  # Defining a variable for ac power
-        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC
+        current_plan = config['default_starting_plan']
+        default_ac_plan = config['default_ac_plan']
+        default_dc_plan = config['default_dc_plan']
+        ac = psutil.sensors_battery().power_plugged  # Set AC/battery status on start
+        if default_ac_plan is not None and default_dc_plan is not None:  # Only enable auto_power_switch on boot if default power plans are enabled (not set to null)
+            auto_power_switch = True
+        else:
+            auto_power_switch = False
+        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC, autoswitch plan if enabled and detected
         resources.extract(config['temp_dir'])
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
         icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
