@@ -308,26 +308,49 @@ def registry_add():     # Adds G14Control.exe to the windows registry to start o
     winreg.SetValueEx(G14Key, "G14Control", 1, winreg.REG_SZ, G14fileloc)
 
 
-if __name__ == "__main__":
+def registry_remove():     # Removes G14Control.exe from the windows registry
+    global registry_key_loc, G14dir
+    G14exe = "G14Control.exe"
+    G14fileloc = os.path.join(G14dir,G14exe)
+    G14Key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, registry_key_loc, 0, winreg.KEY_ALL_ACCESS)
+    winreg.DeleteValue(G14Key,'G14Control')
+
+
+def get_app_path():
+    global G14dir
     if getattr(sys, 'frozen', False):   # Sets the path accordingly whether it is a python script or a frozen .exe
         G14dir = os.path.dirname(sys.executable)
     elif __file__:
         G14dir = os.path.dirname(__file__)
+
+
+def startup_checks():
+    # Only enable auto_power_switch on boot if default power plans are enabled (not set to null):
+    if default_ac_plan is not None and default_dc_plan is not None:
+        auto_power_switch = True
+    else:
+        auto_power_switch = False
+    # Adds registry entry if enabled in config, but not when in debug mode and if not registry entry is already existing, removes registry entry if registry exists but setting is disabled:
+    if config['start_on_boot'] and not config['debug'] and not registry_check():
+        registry_add()
+    if not config['start_on_boot'] and not config['debug'] and registry_check():
+        registry_remove()
+
+
+if __name__ == "__main__":
+    G14dir = None
+    get_app_path()
     config = load_config()  # Make the config available to the whole script
     if is_admin() or config['debug']:  # If running as admin or in debug mode, launch program
         current_plan = config['default_starting_plan']
         default_ac_plan = config['default_ac_plan']
         default_dc_plan = config['default_dc_plan']
-        ac = psutil.sensors_battery().power_plugged  # Set AC/battery status on start
-        if default_ac_plan is not None and default_dc_plan is not None:  # Only enable auto_power_switch on boot if default power plans are enabled (not set to null)
-            auto_power_switch = True
-        else:
-            auto_power_switch = False
-        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC, autoswitch plan if enabled and detected
-        resources.extract(config['temp_dir'])
         registry_key_loc = r'Software\Microsoft\Windows\CurrentVersion\Run'
-        if config['start_on_boot'] and not config['debug'] and not registry_check():    # Adds registry entry if enabled in config, but not when in debug mode and if not registry entry is already existing
-            registry_add()
+        auto_power_switch = False   # Set variable before startup_checks decides what the value should be
+        ac = psutil.sensors_battery().power_plugged  # Set AC/battery status on start
+        resources.extract(config['temp_dir'])
+        startup_checks()
+        Thread(target=power_check, daemon=True).start()  # A process in the background will check for AC, autoswitch plan if enabled and detected
         icon_app = pystray.Icon(config['app_name'])  # Initialize the icon app and set its name
         icon_app.title = config['app_name']  # This is the displayed name when hovering on the icon
         icon_app.icon = create_icon()  # This will set the icon itself (the graphical icon)

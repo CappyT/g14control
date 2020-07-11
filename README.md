@@ -26,7 +26,7 @@ All done in config.yaml within the root folder of the program. The program must 
 
 `app_name:` can be customized, this is what the hover text displays over the icon and the windows notification title
 
-`start_on_boot` Set this to `true` or `false`. Note this will create a Windows Registry entry to enable starting on login. Must have files extracted to a permanent location as above. Note: This will popup an administrator UAC prompt the first time you login after each boot.
+`start_on_boot` Set this to `true` or `false`. Note this will create a Windows Registry entry to enable starting on login. Must have files extracted to a permanent location as above. Note: This will popup an administrator UAC prompt the first time you login after each boot. Setting back to false will remove registry key.
 
 `default_starting_plan` set plan name you want on boot or on restart of the program
 
