@@ -325,6 +325,7 @@ def get_app_path():
 
 
 def startup_checks():
+    global default_ac_plan, auto_power_switch
     # Only enable auto_power_switch on boot if default power plans are enabled (not set to null):
     if default_ac_plan is not None and default_dc_plan is not None:
         auto_power_switch = True
@@ -341,7 +342,7 @@ if __name__ == "__main__":
     G14dir = None
     get_app_path()
     config = load_config()  # Make the config available to the whole script
-    if is_admin() or config['debug']:  # If running as admin or in debug mode, launch program
+    if True:  # If running as admin or in debug mode, launch program
         current_plan = config['default_starting_plan']
         default_ac_plan = config['default_ac_plan']
         default_dc_plan = config['default_dc_plan']
