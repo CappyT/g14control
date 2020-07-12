@@ -17,16 +17,16 @@ While is possible to port this app to Linux, at the moment is engineered to work
 ### Installation
 Download the latest release zip from GitHub: https://github.com/CappyT/g14control/releases
 
-Extract it to some permanent location such as C:\Program Files\G14Control
+Extract it to some permanent location such as C:\Users\[username]\G14Control
 
 Edit the config.yml with text editor as needed (see configuring below)
-
-To make it run on boot, you will need to follow these instructions since it requires administrator privileges: https://www.sevenforums.com/tutorials/11949-elevated-program-shortcut-without-uac-prompt-create.html
 
 ### Configuring
 All done in config.yaml within the root folder of the program. The program must be restarted for any changes to the config.yaml to take effect.
 
 `app_name:` can be customized, this is what the hover text displays over the icon and the windows notification title
+
+`start_on_boot` Set this to `true` or `false`. Note this will create a Windows Registry entry to enable starting on login. Must have files extracted to a permanent location as above. Note: This will popup an administrator UAC prompt the first time you login after each boot. Setting back to false will remove registry key.
 
 `default_starting_plan` set plan name you want on boot or on restart of the program
 
