@@ -277,8 +277,14 @@ def create_menu():  # This will create the menu in the tray app
 
 
 def load_config():  # Small function to load the config and return it after parsing
-    with open('config.yml', 'r') as config_file:
-        return yaml.load(config_file, Loader=yaml.FullLoader)
+    if getattr(sys, 'frozen', False):
+    #if the script is run frozen
+        with open(os.path.join(os.path.dirname(sys.executable), "config.yml"), 'r') as config_file:
+            return yaml.load(config_file, Loader=yaml.FullLoader)
+    else:
+    #if the scirpt is run outside of frozen package
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "config.yml"), 'r') as config_file:
+            return yaml.load(config_file, Loader=yaml.FullLoader)
 
 
 if __name__ == "__main__":
