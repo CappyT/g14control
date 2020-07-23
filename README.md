@@ -62,6 +62,9 @@ Under Plans, you can configure as many or few plans as you want. A plan includes
 
 The config.yaml has many examples of plans included by default. Modify at will.
 
+### Important Note about ASUS ROG Armory Crate
+The ASUS ROG Armory Crate program will automatically change plans on wake, AC unplug, AC plugin. This will override G14's plan setting. Currently the best way around this is to uninstall Armory Crate and Armory Crate Service. This will completely resolve any conflicts.
+
 ### Downloads:
 Check the release tab!
 
