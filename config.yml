@@ -62,4 +62,4 @@ plans:
     cpu_tdp: 45000
     boost: True
     dgpu_enabled: True
-    screen_hz: 60
+    screen_hz: 120
