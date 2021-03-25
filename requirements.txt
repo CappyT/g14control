@@ -8,7 +8,7 @@ pylint==2.5.3
 pypiwin32==223
 pystray==0.16.0
 pywin32==228
-PyYAML==5.3.1
+PyYAML==5.4
 six==1.15.0
 toml==0.10.1
 wrapt==1.12.1
